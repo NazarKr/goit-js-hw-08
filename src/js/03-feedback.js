@@ -3,8 +3,17 @@ import throttle from 'lodash.throttle';
 const LOCAL_STORAGE_KEY = 'feedback-form-state';
 const form = document.querySelector('form.feedback-form');
 
-const getValueFromStorage = () =>
-  JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '{}');
+const getValueFromStorage = () => {
+  let value;
+  try {
+    value = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || {};
+  } catch (e) {
+    console.log('Error while parsing value', e.message);
+    value = {};
+  }
+
+  return value;
+};
 
 const handleInput = event => {
   const { name, value } = event.target;
